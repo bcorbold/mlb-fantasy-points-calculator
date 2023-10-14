@@ -13,7 +13,7 @@ export type Batter = {
   team: string;
 };
 
-const resourceIndexLookup = {
+const lookupTable = {
   name: 1,
   team: 3,
   runs: 8,
@@ -28,23 +28,23 @@ const resourceIndexLookup = {
 };
 
 export const resourceRowToBatter = (row: string[]): Batter => {
-  const hits = Number(row[resourceIndexLookup["hits"]]);
-  const doubles = Number(row[resourceIndexLookup["doubles"]]);
-  const triples = Number(row[resourceIndexLookup["triples"]]);
-  const homeRunes = Number(row[resourceIndexLookup["homeRuns"]]);
+  const hits = Number(row[lookupTable["hits"]]);
+  const doubles = Number(row[lookupTable["doubles"]]);
+  const triples = Number(row[lookupTable["triples"]]);
+  const homeRunes = Number(row[lookupTable["homeRuns"]]);
 
   return {
-    name: row[resourceIndexLookup["name"]],
-    team: row[resourceIndexLookup["team"]],
+    name: row[lookupTable["name"]],
+    team: row[lookupTable["team"]],
     hits,
     singles: hits - doubles - triples - homeRunes,
     doubles,
     triples,
     homeRuns: homeRunes,
-    walks: Number(row[resourceIndexLookup["walks"]]),
-    hitByPitch: Number(row[resourceIndexLookup["hitByPitch"]]),
-    runs: Number(row[resourceIndexLookup["runs"]]),
-    runsBattedIn: Number(row[resourceIndexLookup["runsBattedIn"]]),
-    stolenBases: Number(row[resourceIndexLookup["stolenBases"]]),
+    walks: Number(row[lookupTable["walks"]]),
+    hitByPitch: Number(row[lookupTable["hitByPitch"]]),
+    runs: Number(row[lookupTable["runs"]]),
+    runsBattedIn: Number(row[lookupTable["runsBattedIn"]]),
+    stolenBases: Number(row[lookupTable["stolenBases"]]),
   };
 };

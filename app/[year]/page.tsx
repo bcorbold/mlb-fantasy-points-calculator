@@ -12,9 +12,10 @@ export default function YearPage({ params: { year } }: PageParams<YearParams>) {
   }
 
   return (
-    <div>
+    <div className="flex flex-col">
       <h1 className="prose-2xl">{year} Stats</h1>
       <Link href={`/${year}/batters`}>Batter Stats</Link>
+      <Link href={`/${year}/pitchers`}>Pitcher Stats</Link>
     </div>
   );
 }
