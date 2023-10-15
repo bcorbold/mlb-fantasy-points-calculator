@@ -1,8 +1,12 @@
 import { Pitcher, resourceRowToPitcher } from "@/models/Pitcher";
 import { readFileSync } from "fs";
+import path from "path";
 
 export const loadPitchers = (year: string): Pitcher[] => {
-  const data = readFileSync(`./resources/${year}/pitchers.csv`, "utf-8");
+  const data = readFileSync(
+    path.resolve(`./public/resources/${year}/pitchers.csv`),
+    "utf-8",
+  );
   const rows = data.split("\n").map((row) => row.split(","));
 
   // todo: Can probably just do this in the resource file?

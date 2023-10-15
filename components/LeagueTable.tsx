@@ -13,7 +13,7 @@ import {
   calculatePitcherPoints,
   calculatePlayerPoints,
 } from "@/lib/calculatePlayerPoints";
-import { usePointConfigStore } from "@/lib/usePointConfigStore";
+import { usePointConfigStore } from "@/stores/usePointConfigStore";
 import { useMemo } from "react";
 import { formatPoints } from "@/lib/formatPoints";
 import { RankCell } from "@/components/RankCell";
@@ -82,7 +82,7 @@ const formatData = ({
       adjustedRank: rank + 1,
     }));
 
-export const LeagueTable = (props: Props) => {
+const LeagueTable = (props: Props) => {
   const adjustedConfig = usePointConfigStore((state) => state.pointsConfig);
   const data = useMemo(
     () =>
@@ -95,3 +95,5 @@ export const LeagueTable = (props: Props) => {
 
   return <DataTable data={data} columns={columns} />;
 };
+
+export default LeagueTable;

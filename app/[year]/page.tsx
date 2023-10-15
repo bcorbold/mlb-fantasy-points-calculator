@@ -4,8 +4,18 @@ import { loadPitchers } from "@/lib/loadPitchers";
 import { loadPointsConfig } from "@/lib/loadPointsConfig";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
-import { LeagueTable } from "@/components/LeagueTable";
-import { PointsConfigForm } from "@/components/PointsConfigForm";
+import dynamic from "next/dynamic";
+
+const PointsConfigForm = dynamic(
+  () => import("@/components/PointsConfigForm"),
+  {
+    ssr: false,
+  },
+);
+
+const LeagueTable = dynamic(() => import("@/components/LeagueTable"), {
+  ssr: false,
+});
 
 type YearParams = {
   year: string;

@@ -19,7 +19,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { PointsConfig } from "@/models/PointsConfig";
 import { pointsConfigToFormValues } from "@/lib/pointsConfigToFormValues";
-import { usePointConfigStore } from "@/lib/usePointConfigStore";
+import { usePointConfigStore } from "@/stores/usePointConfigStore";
 import { formValuesToPointsConfig } from "@/lib/formValuesToPointsConfig";
 import { MouseEvent } from "react";
 
@@ -101,7 +101,7 @@ type Props = {
   initialConfig: PointsConfig;
 };
 
-export const PointsConfigForm = ({ initialConfig }: Props) => {
+const PointsConfigForm = ({ initialConfig }: Props) => {
   const pointsConfig = usePointConfigStore((state) => state.pointsConfig);
   const setPointsConfig = usePointConfigStore((state) => state.setPointsConfig);
 
@@ -173,3 +173,5 @@ export const PointsConfigForm = ({ initialConfig }: Props) => {
     </Collapsible>
   );
 };
+
+export default PointsConfigForm;
