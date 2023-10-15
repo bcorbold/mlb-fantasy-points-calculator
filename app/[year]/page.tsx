@@ -1,30 +1,47 @@
 import { PageParams } from "@/models/PageParams";
-import { isSupportedYear } from "@/models/SupportedYear";
-import Link from "next/link";
+import { loadBatters } from "@/lib/loadBatters";
+import { loadPitchers } from "@/lib/loadPitchers";
 import { loadPointsConfig } from "@/lib/loadPointsConfig";
-import { PointsConfigSummary } from "@/components/PointsConfigSummary";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import Link from "next/link";
+import { LeagueTable } from "@/components/LeagueTable";
+import { PointsConfigForm } from "@/components/PointsConfigForm";
 
-export type YearParams = {
+type YearParams = {
   year: string;
 };
 
 export default function YearPage({ params: { year } }: PageParams<YearParams>) {
-  if (!isSupportedYear(year)) {
-    return <h1 className="prose-2xl">Sorry no data for this year</h1>;
-  }
+  const batters = loadBatters(year);
+  const pitchers = loadPitchers(year);
   const config = loadPointsConfig(year);
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <div className="flex flex-col gap-2 items-start px-2">
-        <h1 className="prose-2xl">{year} Player Stats</h1>
-        <Link href={`/${year}/league`}>League Stats</Link>
-        <Link href={`/${year}/batters`}>Batter Stats</Link>
-        <Link href={`/${year}/pitchers`}>Pitcher Stats</Link>
-      </div>
-      <div className="bg-slate-200 flex flex-col gap-2 items-start px-2 rounded-lg">
-        <h1 className="prose-2xl">{year} Points Breakdown</h1>
-        <PointsConfigSummary config={config} />
+    <div className="grid grid-rows-[auto,auto,1fr] gap-2 h-full">
+      <h1 className="prose-2xl">{year} League Stats</h1>
+      <Alert>
+        <AlertDescription>
+          All player stats exported from{" "}
+          <Link
+            href={`https://www.baseball-reference.com/leagues/majors/${year}-standard-batting.shtml`}
+            className="text-blue-600 underline"
+            target="_blank"
+          >
+            BR Batters Page
+          </Link>{" "}
+          and{" "}
+          <Link
+            href={`https://www.baseball-reference.com/leagues/majors/${year}-standard-pitching.shtml`}
+            className="text-blue-600 underline"
+            target="_blank"
+          >
+            BR Pitchers Page
+          </Link>
+        </AlertDescription>
+      </Alert>
+      <div className="h-full w-full overflow-auto">
+        <PointsConfigForm initialConfig={config} />
+        <LeagueTable batters={batters} pitchers={pitchers} config={config} />
       </div>
     </div>
   );
