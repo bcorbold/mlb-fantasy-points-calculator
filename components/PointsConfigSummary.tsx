@@ -1,4 +1,4 @@
-import { PointsConfig } from "@/app/_models/PointsConfig";
+import { PointsConfig } from "@/models/PointsConfig";
 
 type Props = {
   config: PointsConfig;

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SUPPORTED_YEARS } from "@/app/_models/SupportedYear";
+import { SUPPORTED_YEARS } from "@/models/SupportedYear";
 
 export default function Home() {
   return (

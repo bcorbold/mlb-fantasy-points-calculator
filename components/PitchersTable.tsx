@@ -1,20 +1,33 @@
 "use client";
 
-import { Pitcher } from "@/app/_models/Pitcher";
+import { Pitcher, PitcherWithPoints } from "@/models/Pitcher";
 import { ColumnDef } from "@tanstack/table-core";
-import { DataTable } from "@/app/_components/DataTable";
-import { SortableHeaderCell } from "@/app/_components/SortableHeaderCell";
+import { DataTable } from "@/components/DataTable";
+import { SortableHeaderCell } from "@/components/SortableHeaderCell";
 
 type Props = {
-  pitchers: Pitcher[];
+  pitchers: PitcherWithPoints[];
 };
 
-const columns: ColumnDef<Pitcher>[] = [
+const columns: ColumnDef<PitcherWithPoints>[] = [
   {
     header: (props) => (
       <SortableHeaderCell {...props}>Player</SortableHeaderCell>
     ),
     accessorKey: "name",
+  },
+  {
+    header: (props) => (
+      <SortableHeaderCell {...props}>Points</SortableHeaderCell>
+    ),
+    accessorKey: "points",
+    cell: ({ getValue }) => (
+      <>
+        {new Intl.NumberFormat("en-CA", { minimumFractionDigits: 2 }).format(
+          getValue<number>(),
+        )}
+      </>
+    ),
   },
   {
     header: (props) => <SortableHeaderCell {...props}>W</SortableHeaderCell>,

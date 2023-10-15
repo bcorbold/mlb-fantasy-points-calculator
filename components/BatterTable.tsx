@@ -1,9 +1,9 @@
 "use client";
 
-import { Batter, BatterWithPoints } from "@/app/_models/Batter";
+import { Batter, BatterWithPoints } from "@/models/Batter";
 import { ColumnDef } from "@tanstack/table-core";
-import { DataTable } from "@/app/_components/DataTable";
-import { SortableHeaderCell } from "@/app/_components/SortableHeaderCell";
+import { DataTable } from "@/components/DataTable";
+import { SortableHeaderCell } from "@/components/SortableHeaderCell";
 
 type Props = {
   batters: BatterWithPoints[];

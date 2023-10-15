@@ -1,8 +1,8 @@
-import { PageParams } from "@/app/_models/PageParams";
-import { isSupportedYear } from "@/app/_models/SupportedYear";
+import { PageParams } from "@/models/PageParams";
+import { isSupportedYear } from "@/models/SupportedYear";
 import Link from "next/link";
-import { loadPointsConfig } from "@/app/_utils/loadPointsConfig";
-import { PointsConfigSummary } from "@/app/_components/PointsConfigSummary";
+import { loadPointsConfig } from "@/lib/loadPointsConfig";
+import { PointsConfigSummary } from "@/components/PointsConfigSummary";
 
 export type YearParams = {
   year: string;
@@ -18,6 +18,7 @@ export default function YearPage({ params: { year } }: PageParams<YearParams>) {
     <div className="grid grid-cols-2 gap-4">
       <div className="flex flex-col gap-2 items-start px-2">
         <h1 className="prose-2xl">{year} Player Stats</h1>
+        <Link href={`/${year}/league`}>League Stats</Link>
         <Link href={`/${year}/batters`}>Batter Stats</Link>
         <Link href={`/${year}/pitchers`}>Pitcher Stats</Link>
       </div>

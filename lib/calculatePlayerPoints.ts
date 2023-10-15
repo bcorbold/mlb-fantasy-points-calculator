@@ -1,10 +1,10 @@
-import { Batter, isBatter } from "@/app/_models/Batter";
-import { Pitcher } from "@/app/_models/Pitcher";
+import { Batter, isBatter } from "@/models/Batter";
+import { Pitcher } from "@/models/Pitcher";
 import {
   BattersPointsConfig,
   PitchersPointsConfig,
   PointsConfig,
-} from "@/app/_models/PointsConfig";
+} from "@/models/PointsConfig";
 
 const roundDecimals = (value: number) =>
   Math.round((value + Number.EPSILON) * 100) / 100;

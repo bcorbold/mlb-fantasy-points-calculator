@@ -2,8 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
-import { cn } from "@/lib/utils";
-import { HeaderBreadCrumbs } from "@/app/_components/HeaderBreadCrumbs";
+import { cn } from "@/lib/cn";
+import { HeaderBreadCrumbs } from "@/components/HeaderBreadCrumbs";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 

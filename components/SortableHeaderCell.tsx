@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
-import { WithChildren } from "@/app/_models/WithChildren";
+import { WithChildren } from "@/models/WithChildren";
 import { HeaderContext } from "@tanstack/table-core";
 
 export const SortableHeaderCell = ({

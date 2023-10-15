@@ -11,6 +11,8 @@ export type Pitcher = {
   strikeouts: number;
 };
 
+export type PitcherWithPoints = Pitcher & { points: number };
+
 const lookupTable = {
   name: 1,
   team: 3,
