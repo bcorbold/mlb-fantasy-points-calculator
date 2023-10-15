@@ -10,6 +10,18 @@ import {
 } from "@/models/PointsConfigFormSchema";
 import { PointConfigInput } from "@/components/PointConfigInput";
 import { PointsConfigFormSchema } from "@/models/PointsConfigFormSchema";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { PointsConfig } from "@/models/PointsConfig";
+import { pointsConfigToFormValues } from "@/lib/pointsConfigToFormValues";
+import { usePointConfigStore } from "@/lib/usePointConfigStore";
+import { formValuesToPointsConfig } from "@/lib/formValuesToPointsConfig";
+import { MouseEvent } from "react";
 
 const batterFields: InputFieldConfig<BatterFields>[] = [
   {
@@ -85,45 +97,79 @@ const pitcherFields: InputFieldConfig<PitcherFields>[] = [
   },
 ];
 
-export const PointsConfigForm = () => {
+type Props = {
+  initialConfig: PointsConfig;
+};
+
+export const PointsConfigForm = ({ initialConfig }: Props) => {
+  const pointsConfig = usePointConfigStore((state) => state.pointsConfig);
+  const setPointsConfig = usePointConfigStore((state) => state.setPointsConfig);
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<PointsConfigFormSchema>({
     resolver: zodResolver(pointsConfigFormSchema),
     mode: "onTouched",
+    defaultValues: pointsConfigToFormValues(pointsConfig ?? initialConfig),
   });
 
+  const onSubmit = (values: PointsConfigFormSchema) =>
+    setPointsConfig(formValuesToPointsConfig(values));
+
+  const onReset = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    reset(pointsConfigToFormValues(initialConfig));
+    setPointsConfig(initialConfig);
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit((d) => console.log(d))}
-      className="p-4 rounded-lg flex flex-col border"
-    >
-      <div className="flex-grow grid grid-cols-3 gap-2">
-        <h2 className="col-span-3 prose-lg">Batters</h2>
-        {batterFields.map(({ name, label }) => (
-          <PointConfigInput
-            key={name}
-            name={name}
-            label={label}
-            errors={errors}
-            register={register}
-          />
-        ))}
-      </div>
-      <div className="flex-grow grid grid-cols-4 gap-2">
-        <h2 className="col-span-4 prose-lg">Pitchers</h2>
-        {pitcherFields.map(({ name, label }) => (
-          <PointConfigInput
-            key={name}
-            name={name}
-            label={label}
-            errors={errors}
-            register={register}
-          />
-        ))}
-      </div>
-    </form>
+    <Collapsible className="p-4 rounded-lg border" defaultOpen>
+      <CollapsibleTrigger className="prose-lg">
+        Adjust Points
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <div className="flex flex-col gap-4">
+          <Separator />
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className=" flex flex-col gap-4 px-1"
+          >
+            <div className="flex-grow grid grid-cols-3 gap-2">
+              <h2 className="col-span-3 prose-lg">Batters</h2>
+              {batterFields.map(({ name, label }) => (
+                <PointConfigInput
+                  key={name}
+                  name={name}
+                  label={label}
+                  errors={errors}
+                  register={register}
+                />
+              ))}
+            </div>
+            <div className="flex-grow grid grid-cols-4 gap-2">
+              <h2 className="col-span-4 prose-lg">Pitchers</h2>
+              {pitcherFields.map(({ name, label }) => (
+                <PointConfigInput
+                  key={name}
+                  name={name}
+                  label={label}
+                  errors={errors}
+                  register={register}
+                />
+              ))}
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant="destructive" type="reset" onClick={onReset}>
+                Reset All
+              </Button>
+              <Button type="submit">Submit</Button>
+            </div>
+          </form>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   );
 };

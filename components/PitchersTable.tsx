@@ -4,6 +4,7 @@ import { Pitcher, PitcherWithPoints } from "@/models/Pitcher";
 import { ColumnDef } from "@tanstack/table-core";
 import { DataTable } from "@/components/DataTable";
 import { SortableHeaderCell } from "@/components/SortableHeaderCell";
+import { formatPoints } from "@/lib/formatPoints";
 
 type Props = {
   pitchers: PitcherWithPoints[];
@@ -21,13 +22,7 @@ const columns: ColumnDef<PitcherWithPoints>[] = [
       <SortableHeaderCell {...props}>Points</SortableHeaderCell>
     ),
     accessorKey: "points",
-    cell: ({ getValue }) => (
-      <>
-        {new Intl.NumberFormat("en-CA", { minimumFractionDigits: 2 }).format(
-          getValue<number>(),
-        )}
-      </>
-    ),
+    cell: ({ getValue }) => <>{formatPoints(getValue<number>())}</>,
   },
   {
     header: (props) => <SortableHeaderCell {...props}>W</SortableHeaderCell>,

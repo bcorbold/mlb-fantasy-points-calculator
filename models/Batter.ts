@@ -1,3 +1,5 @@
+import { WithPoints } from "@/models/WithPoints";
+
 export type Batter = {
   name: string;
   runs: number;
@@ -13,9 +15,7 @@ export type Batter = {
   team: string;
 };
 
-export type BatterWithPoints = Batter & {
-  points: number;
-};
+export type BatterWithPoints = Batter & WithPoints;
 
 const lookupTable = {
   name: 1,

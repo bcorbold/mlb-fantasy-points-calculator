@@ -21,17 +21,6 @@ export default function LeaguePage({
   const pitchers = loadPitchers(year);
   const config = loadPointsConfig(year);
 
-  const players: (BatterWithPoints | PitcherWithPoints)[] = [
-    ...batters.map((batter) => ({
-      ...batter,
-      points: calculateBatterPoints(batter, config.batters),
-    })),
-    ...pitchers.map((pitcher) => ({
-      ...pitcher,
-      points: calculatePitcherPoints(pitcher, config.pitchers),
-    })),
-  ].sort((a, b) => (a.points > b.points ? -1 : 1));
-
   return (
     <div className="grid grid-rows-[auto,auto,1fr] gap-2 h-full">
       <h1 className="prose-2xl">{year} League Stats</h1>
@@ -56,8 +45,8 @@ export default function LeaguePage({
         </AlertDescription>
       </Alert>
       <div className="h-full w-full overflow-auto">
-        <PointsConfigForm />
-        <LeagueTable players={players} />
+        <PointsConfigForm initialConfig={config} />
+        <LeagueTable batters={batters} pitchers={pitchers} config={config} />
       </div>
     </div>
   );

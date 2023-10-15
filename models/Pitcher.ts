@@ -1,3 +1,5 @@
+import { WithPoints } from "@/models/WithPoints";
+
 export type Pitcher = {
   name: string;
   team: string;
@@ -11,7 +13,7 @@ export type Pitcher = {
   strikeouts: number;
 };
 
-export type PitcherWithPoints = Pitcher & { points: number };
+export type PitcherWithPoints = Pitcher & WithPoints;
 
 const lookupTable = {
   name: 1,
@@ -43,9 +45,3 @@ export const resourceRowToPitcher = (row: string[]): Pitcher => ({
   walks: Number(row[lookupTable["walks"]]),
   wins: Number(row[lookupTable["wins"]]),
 });
-
-export const isPitcher = (player: unknown): player is Pitcher =>
-  !!player &&
-  typeof player === "object" &&
-  "name" in player &&
-  "wins" in player;
