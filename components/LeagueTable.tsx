@@ -28,7 +28,7 @@ const columns: ColumnDef<BatterWithPoints | PitcherWithPoints>[] = [
   },
   {
     header: (props) => (
-      <SortableHeaderCell {...props}>Points</SortableHeaderCell>
+      <SortableHeaderCell {...props}>Points (Current Year)</SortableHeaderCell>
     ),
     accessorKey: "points",
     cell: ({ getValue }) => (

@@ -12,6 +12,7 @@ import {
   calculatePitcherPoints,
 } from "@/lib/calculatePlayerPoints";
 import { LeagueTable } from "@/components/LeagueTable";
+import { PointsConfigForm } from "@/components/PointsConfigForm";
 
 export default function LeaguePage({
   params: { year },
@@ -54,8 +55,8 @@ export default function LeaguePage({
           </Link>
         </AlertDescription>
       </Alert>
-      <div className="bg-blue-400">Settings</div>
       <div className="h-full w-full overflow-auto">
+        <PointsConfigForm />
         <LeagueTable players={players} />
       </div>
     </div>
