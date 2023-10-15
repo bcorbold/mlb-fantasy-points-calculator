@@ -31,10 +31,12 @@ export default function BattersPage({
       <div className="bg-blue-400">Settings</div>
       <div className="h-full w-full overflow-auto">
         <BatterTable
-          batters={batters.map((batter) => ({
-            ...batter,
-            points: calculateBatterPoints(batter, config),
-          }))}
+          batters={batters
+            .map((batter) => ({
+              ...batter,
+              points: calculateBatterPoints(batter, config),
+            }))
+            .sort((a, b) => (a.points > b.points ? -1 : 1))}
         />
       </div>
     </div>

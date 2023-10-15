@@ -32,10 +32,12 @@ export default function PitchersPage({
       <div className="bg-blue-400">Settings</div>
       <div className="h-full w-full overflow-auto">
         <PitchersTable
-          pitchers={pitchers.map((pitcher) => ({
-            ...pitcher,
-            points: calculatePitcherPoints(pitcher, config),
-          }))}
+          pitchers={pitchers
+            .map((pitcher) => ({
+              ...pitcher,
+              points: calculatePitcherPoints(pitcher, config),
+            }))
+            .sort((a, b) => (a.points > b.points ? -1 : 1))}
         />
       </div>
     </div>

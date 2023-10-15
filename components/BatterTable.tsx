@@ -63,6 +63,6 @@ const columns: ColumnDef<BatterWithPoints>[] = [
   },
 ];
 
-export const BatterTable = ({ batters }: Props) => {
-  return <DataTable data={batters} columns={columns} />;
-};
+export const BatterTable = ({ batters }: Props) => (
+  <DataTable data={batters} columns={columns} />
+);
