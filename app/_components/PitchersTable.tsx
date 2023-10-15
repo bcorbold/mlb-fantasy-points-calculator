@@ -1,110 +1,55 @@
 "use client";
 
 import { Pitcher } from "@/app/_models/Pitcher";
-import { ColumnDef, getCoreRowModel } from "@tanstack/table-core";
-import { flexRender, useReactTable } from "@tanstack/react-table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { ColumnDef } from "@tanstack/table-core";
+import { DataTable } from "@/app/_components/DataTable";
+import { SortableHeaderCell } from "@/app/_components/SortableHeaderCell";
 
 type Props = {
   pitchers: Pitcher[];
 };
 
-// todo: https://ui.shadcn.com/docs/components/data-table#sorting
 const columns: ColumnDef<Pitcher>[] = [
   {
-    header: "Player",
+    header: (props) => (
+      <SortableHeaderCell {...props}>Player</SortableHeaderCell>
+    ),
     accessorKey: "name",
   },
   {
-    header: "Wins (W)",
+    header: (props) => <SortableHeaderCell {...props}>W</SortableHeaderCell>,
     accessorKey: "wins",
   },
   {
-    header: "Saves (SV)",
+    header: (props) => <SortableHeaderCell {...props}>SV</SortableHeaderCell>,
     accessorKey: "saves",
   },
   {
-    header: "Outs (OUT)",
+    header: (props) => <SortableHeaderCell {...props}>OUT</SortableHeaderCell>,
     accessorKey: "outs",
   },
   {
-    header: "Hits (H)",
+    header: (props) => <SortableHeaderCell {...props}>H</SortableHeaderCell>,
     accessorKey: "hits",
   },
   {
-    header: "Earned Runs (ER)",
+    header: (props) => <SortableHeaderCell {...props}>ER</SortableHeaderCell>,
     accessorKey: "earnedRuns",
   },
   {
-    header: "Walks (BB)",
+    header: (props) => <SortableHeaderCell {...props}>BB</SortableHeaderCell>,
     accessorKey: "walks",
   },
   {
-    header: "Hit Batters (HBP)",
-    accessorKey: "hitByPitch",
+    header: (props) => <SortableHeaderCell {...props}>HBP</SortableHeaderCell>,
+    accessorKey: "hitBatters",
   },
   {
-    header: "Strikeouts (K)",
-    accessorKey: "strikeOuts",
+    header: (props) => <SortableHeaderCell {...props}>K</SortableHeaderCell>,
+    accessorKey: "strikeouts",
   },
 ];
 
 export const PitchersTable = ({ pitchers }: Props) => {
-  const table = useReactTable({
-    data: pitchers,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
-  return (
-    <Table>
-      <TableHeader>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow key={headerGroup.id}>
-            {headerGroup.headers.map((header) => {
-              return (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                </TableHead>
-              );
-            })}
-          </TableRow>
-        ))}
-      </TableHeader>
-      <TableBody>
-        {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
-            <TableRow
-              key={row.id}
-              data-state={row.getIsSelected() && "selected"}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))
-        ) : (
-          <TableRow>
-            <TableCell colSpan={columns.length} className="h-24 text-center">
-              No results.
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
-  );
+  return <DataTable data={pitchers} columns={columns} />;
 };

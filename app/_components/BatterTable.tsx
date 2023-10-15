@@ -1,110 +1,68 @@
 "use client";
 
-import { Batter } from "@/app/_models/Batter";
-import { ColumnDef, getCoreRowModel } from "@tanstack/table-core";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { flexRender, useReactTable } from "@tanstack/react-table";
+import { Batter, BatterWithPoints } from "@/app/_models/Batter";
+import { ColumnDef } from "@tanstack/table-core";
+import { DataTable } from "@/app/_components/DataTable";
+import { SortableHeaderCell } from "@/app/_components/SortableHeaderCell";
 
 type Props = {
-  batters: Batter[];
+  batters: BatterWithPoints[];
 };
 
-// todo: https://ui.shadcn.com/docs/components/data-table#sorting
-const columns: ColumnDef<Batter>[] = [
+const columns: ColumnDef<BatterWithPoints>[] = [
   {
-    header: "Player",
+    header: (props) => (
+      <SortableHeaderCell {...props}>Player</SortableHeaderCell>
+    ),
     accessorKey: "name",
   },
   {
-    header: "Runs (R)",
+    header: (props) => (
+      <SortableHeaderCell {...props}>Points</SortableHeaderCell>
+    ),
+    accessorKey: "points",
+    cell: ({ getValue }) => (
+      <>
+        {new Intl.NumberFormat("en-CA", { minimumFractionDigits: 2 }).format(
+          getValue<number>(),
+        )}
+      </>
+    ),
+  },
+  {
+    header: (props) => <SortableHeaderCell {...props}>R</SortableHeaderCell>,
     accessorKey: "runs",
   },
   {
-    header: "Singles (1B)",
+    header: (props) => <SortableHeaderCell {...props}>1B</SortableHeaderCell>,
     accessorKey: "singles",
   },
   {
-    header: "Doubles (2B)",
+    header: (props) => <SortableHeaderCell {...props}>2B</SortableHeaderCell>,
     accessorKey: "doubles",
   },
   {
-    header: "Triples (3B)",
+    header: (props) => <SortableHeaderCell {...props}>3B</SortableHeaderCell>,
     accessorKey: "triples",
   },
   {
-    header: "Home Runes (HR)",
+    header: (props) => <SortableHeaderCell {...props}>HR</SortableHeaderCell>,
     accessorKey: "homeRuns",
   },
   {
-    header: "Stole Bases (SB)",
+    header: (props) => <SortableHeaderCell {...props}>SB</SortableHeaderCell>,
     accessorKey: "stolenBases",
   },
   {
-    header: "Walks (BB)",
+    header: (props) => <SortableHeaderCell {...props}>BB</SortableHeaderCell>,
     accessorKey: "walks",
   },
   {
-    header: "Hit By Pitch (HBP)",
+    header: (props) => <SortableHeaderCell {...props}>HBP</SortableHeaderCell>,
     accessorKey: "hitByPitch",
   },
 ];
 
 export const BatterTable = ({ batters }: Props) => {
-  const table = useReactTable({
-    data: batters,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
-  return (
-    <Table>
-      <TableHeader>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow key={headerGroup.id}>
-            {headerGroup.headers.map((header) => {
-              return (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                </TableHead>
-              );
-            })}
-          </TableRow>
-        ))}
-      </TableHeader>
-      <TableBody>
-        {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
-            <TableRow
-              key={row.id}
-              data-state={row.getIsSelected() && "selected"}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))
-        ) : (
-          <TableRow>
-            <TableCell colSpan={columns.length} className="h-24 text-center">
-              No results.
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
-  );
+  return <DataTable data={batters} columns={columns} />;
 };

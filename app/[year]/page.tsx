@@ -1,6 +1,8 @@
 import { PageParams } from "@/app/_models/PageParams";
 import { isSupportedYear } from "@/app/_models/SupportedYear";
 import Link from "next/link";
+import { loadPointsConfig } from "@/app/_utils/loadPointsConfig";
+import { PointsConfigSummary } from "@/app/_components/PointsConfigSummary";
 
 export type YearParams = {
   year: string;
@@ -10,12 +12,19 @@ export default function YearPage({ params: { year } }: PageParams<YearParams>) {
   if (!isSupportedYear(year)) {
     return <h1 className="prose-2xl">Sorry no data for this year</h1>;
   }
+  const config = loadPointsConfig(year);
 
   return (
-    <div className="flex flex-col">
-      <h1 className="prose-2xl">{year} Stats</h1>
-      <Link href={`/${year}/batters`}>Batter Stats</Link>
-      <Link href={`/${year}/pitchers`}>Pitcher Stats</Link>
+    <div className="grid grid-cols-2 gap-4">
+      <div className="flex flex-col gap-2 items-start px-2">
+        <h1 className="prose-2xl">{year} Player Stats</h1>
+        <Link href={`/${year}/batters`}>Batter Stats</Link>
+        <Link href={`/${year}/pitchers`}>Pitcher Stats</Link>
+      </div>
+      <div className="bg-slate-200 flex flex-col gap-2 items-start px-2 rounded-lg">
+        <h1 className="prose-2xl">{year} Points Breakdown</h1>
+        <PointsConfigSummary config={config} />
+      </div>
     </div>
   );
 }

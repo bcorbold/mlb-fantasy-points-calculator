@@ -13,6 +13,10 @@ export type Batter = {
   team: string;
 };
 
+export type BatterWithPoints = Batter & {
+  points: number;
+};
+
 const lookupTable = {
   name: 1,
   team: 3,
@@ -48,3 +52,9 @@ export const resourceRowToBatter = (row: string[]): Batter => {
     stolenBases: Number(row[lookupTable["stolenBases"]]),
   };
 };
+
+export const isBatter = (player: unknown): player is Batter =>
+  !!player &&
+  typeof player === "object" &&
+  "name" in player &&
+  "homeRuns" in player;

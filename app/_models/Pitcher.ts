@@ -7,8 +7,8 @@ export type Pitcher = {
   hits: number;
   earnedRuns: number;
   walks: number;
-  hitByPitch: number;
-  strikeOuts: number;
+  hitBatters: number;
+  strikeouts: number;
 };
 
 const lookupTable = {
@@ -19,8 +19,8 @@ const lookupTable = {
   hits: 16,
   earnedRuns: 18,
   walks: 20,
-  hitByPitch: 23,
-  strikeOuts: 22,
+  hitBatters: 23,
+  strikeouts: 22,
   inningsPitched: 15,
 };
 
@@ -32,12 +32,18 @@ const inningsPitcherToOuts = (inningsPitched: string): number => {
 export const resourceRowToPitcher = (row: string[]): Pitcher => ({
   name: row[lookupTable["name"]],
   earnedRuns: Number(row[lookupTable["earnedRuns"]]),
-  hitByPitch: Number(row[lookupTable["hitByPitch"]]),
+  hitBatters: Number(row[lookupTable["hitBatters"]]),
   hits: Number(row[lookupTable["hits"]]),
   outs: inningsPitcherToOuts(row[lookupTable["inningsPitched"]]),
   saves: Number(row[lookupTable["saves"]]),
-  strikeOuts: Number(row[lookupTable["strikeOuts"]]),
+  strikeouts: Number(row[lookupTable["strikeouts"]]),
   team: row[lookupTable["team"]],
   walks: Number(row[lookupTable["walks"]]),
   wins: Number(row[lookupTable["wins"]]),
 });
+
+export const isPitcher = (player: unknown): player is Pitcher =>
+  !!player &&
+  typeof player === "object" &&
+  "name" in player &&
+  "wins" in player;
