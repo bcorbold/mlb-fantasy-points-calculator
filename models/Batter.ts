@@ -70,7 +70,7 @@ export type Batter = Omit<
 export type BatterWithPoints = Batter & WithPoints;
 
 export const batterRowToBatter = (batter: BatterRow): Batter => ({
-  ...omit(["Rk", "Pos Summary", "Name-additional"], batter),
+  ...omit(["Rk", "Pos Summary", "Name-additional", "2B", "3B", "OPS+"], batter),
   position: batter["Pos Summary"],
   brId: batter["Name-additional"],
   singles: batter.H - batter["2B"] - batter["3B"] - batter.HR,

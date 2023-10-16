@@ -17,6 +17,7 @@ import { usePointConfigStore } from "@/stores/usePointConfigStore";
 import { useMemo } from "react";
 import { formatPoints } from "@/lib/formatPoints";
 import { RankCell } from "@/components/RankCell";
+import { PlayerNameCell } from "@/components/PlayerNameCell";
 
 type Props = {
   batters: Batter[];
@@ -31,10 +32,11 @@ const columns: ColumnDef<BatterWithPoints | PitcherWithPoints>[] = [
     cell: RankCell,
   },
   {
+    id: "name",
     header: (props) => (
       <SortableHeaderCell {...props}>Player</SortableHeaderCell>
     ),
-    accessorKey: "Name",
+    cell: PlayerNameCell,
   },
   {
     header: "Player Type",

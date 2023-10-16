@@ -83,5 +83,5 @@ export const pitcherRowToPitcher = (pitcher: PitcherRow): Pitcher => ({
 
 const inningsPitchedToOuts = (inningsPitched: number): number => {
   const parsed = `${inningsPitched}`.split(".");
-  return Number(parsed[0]) * 3 + Number(parsed[1]);
+  return Number(parsed[0] ?? "0") * 3 + Number(parsed[1] ?? "0");
 };
