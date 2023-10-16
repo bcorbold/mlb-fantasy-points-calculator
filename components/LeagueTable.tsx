@@ -34,7 +34,7 @@ const columns: ColumnDef<BatterWithPoints | PitcherWithPoints>[] = [
     header: (props) => (
       <SortableHeaderCell {...props}>Player</SortableHeaderCell>
     ),
-    accessorKey: "name",
+    accessorKey: "Name",
   },
   {
     header: "Player Type",

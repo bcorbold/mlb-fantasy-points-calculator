@@ -25,7 +25,7 @@ import { MouseEvent } from "react";
 
 const batterFields: InputFieldConfig<BatterFields>[] = [
   {
-    name: "batters_runs",
+    name: "batters_R",
     label: "Runs (R)",
   },
   {
@@ -41,58 +41,58 @@ const batterFields: InputFieldConfig<BatterFields>[] = [
     label: "Triples (3B)",
   },
   {
-    name: "batters_homeRuns",
+    name: "batters_HR",
     label: "Home Runs (HR)",
   },
   {
-    name: "batters_runsBattedIn",
+    name: "batters_RBI",
     label: "Runs Batted In (RBI)",
   },
   {
-    name: "batters_stolenBases",
+    name: "batters_SB",
     label: "Stolen Bases (SB)",
   },
   {
-    name: "batters_walks",
+    name: "batters_BB",
     label: "Walks (BB)",
   },
   {
-    name: "batters_hitByPitch",
+    name: "batters_HBP",
     label: "Hit By Pitch (HBP)",
   },
 ];
 
 const pitcherFields: InputFieldConfig<PitcherFields>[] = [
   {
-    name: "pitchers_wins",
+    name: "pitchers_W",
     label: "Wins (W)",
   },
   {
-    name: "pitchers_saves",
+    name: "pitchers_SV",
     label: "Saves (SV)",
   },
   {
-    name: "pitchers_outs",
+    name: "pitchers_OUT",
     label: "Outs (OUT)",
   },
   {
-    name: "pitchers_hits",
+    name: "pitchers_H",
     label: "Hits (H)",
   },
   {
-    name: "pitchers_earnedRuns",
+    name: "pitchers_ER",
     label: "Earned Runs (ER)",
   },
   {
-    name: "pitchers_walks",
+    name: "pitchers_BB",
     label: "Walks (BB)",
   },
   {
-    name: "pitchers_hitBatters",
+    name: "pitchers_HBP",
     label: "Hit Batters (HBP)",
   },
   {
-    name: "pitchers_strikeouts",
+    name: "pitchers_SO",
     label: "Strikeouts (K)",
   },
 ];

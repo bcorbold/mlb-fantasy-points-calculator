@@ -19,6 +19,7 @@
     "clsx": "^2",
     "lucide-react": "^0",
     "next": "13.5.4",
+    "ramda": "^0.29.1",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.47.0",
@@ -28,10 +29,11 @@
     "zustand": "^4.4.3"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0",
     "@types/node": "^20",
+    "@types/ramda": "^0.29.6",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@tailwindcss/typography": "^0",
     "autoprefixer": "^10",
     "eslint": "^8",
     "eslint-config-next": "13.5.4",

@@ -1,4 +1,4 @@
-import { Pitcher, resourceRowToPitcher } from "@/models/Pitcher";
+import { Pitcher, pitcherRowToPitcher, toPitcherRow } from "@/models/Pitcher";
 import { readFileSync } from "fs";
 import path from "path";
 
@@ -9,21 +9,19 @@ export const loadPitchers = (year: string): Pitcher[] => {
   );
   const rows = data.split("\n").map((row) => row.split(","));
 
-  // todo: Can probably just do this in the resource file?
-  // removes the header row
-  rows.shift();
-
-  // todo: Filter players with 0 ABs?
-  const pitcherRows = rows.map(resourceRowToPitcher);
+  const headerRow = rows.shift()!;
+  const pitcherRows: Pitcher[] = rows.map((row) =>
+    pitcherRowToPitcher(toPitcherRow(headerRow)(row)),
+  );
 
   const pitcherGroups = pitcherRows.reduce<Record<string, Pitcher[]>>(
     (acc, pitcher) => {
-      const existingPitcher = acc[pitcher.name];
+      const existingPitcher = acc[pitcher.brId];
       if (existingPitcher) {
         existingPitcher.push(pitcher);
-        acc[pitcher.name] = existingPitcher;
+        acc[pitcher.brId] = existingPitcher;
       } else {
-        acc[pitcher.name] = [pitcher];
+        acc[pitcher.brId] = [pitcher];
       }
       return acc;
     },
@@ -34,7 +32,7 @@ export const loadPitchers = (year: string): Pitcher[] => {
     if (pitcherGroup.length === 1) {
       acc.push(pitcherGroup[0]);
     } else {
-      const totalPlayer = pitcherGroup.find(({ team }) => team === "TOT");
+      const totalPlayer = pitcherGroup.find(({ Tm }) => Tm === "TOT");
       if (!totalPlayer) {
         // Players with the same name shouldn't be grouped together
         acc.push(...pitcherGroup);
