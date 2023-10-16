@@ -84,7 +84,7 @@ const formatData = ({
       adjustedRank: rank + 1,
     }));
 
-const LeagueTable = (props: Props) => {
+export const LeagueTable = (props: Props) => {
   const adjustedConfig = usePointConfigStore((state) => state.pointsConfig);
   const data = useMemo(
     () =>
@@ -97,5 +97,3 @@ const LeagueTable = (props: Props) => {
 
   return <DataTable data={data} columns={columns} />;
 };
-
-export default LeagueTable;

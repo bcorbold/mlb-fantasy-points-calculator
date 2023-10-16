@@ -22,6 +22,7 @@ import { pointsConfigToFormValues } from "@/lib/pointsConfigToFormValues";
 import { usePointConfigStore } from "@/stores/usePointConfigStore";
 import { formValuesToPointsConfig } from "@/lib/formValuesToPointsConfig";
 import { MouseEvent } from "react";
+import { PointsConfigComparison } from "@/components/PointsConfigComparison";
 
 const batterFields: InputFieldConfig<BatterFields>[] = [
   {
@@ -101,7 +102,7 @@ type Props = {
   initialConfig: PointsConfig;
 };
 
-const PointsConfigForm = ({ initialConfig }: Props) => {
+export const PointsConfigForm = ({ initialConfig }: Props) => {
   const pointsConfig = usePointConfigStore((state) => state.pointsConfig);
   const setPointsConfig = usePointConfigStore((state) => state.setPointsConfig);
 
@@ -109,7 +110,8 @@ const PointsConfigForm = ({ initialConfig }: Props) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, defaultValues },
+    watch,
   } = useForm<PointsConfigFormSchema>({
     resolver: zodResolver(pointsConfigFormSchema),
     mode: "onTouched",
@@ -131,47 +133,46 @@ const PointsConfigForm = ({ initialConfig }: Props) => {
         Adjust Points
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div className="flex flex-col gap-4">
-          <Separator />
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className=" flex flex-col gap-4 px-1"
-          >
-            <div className="flex-grow grid grid-cols-3 gap-2">
-              <h2 className="col-span-3 prose-lg">Batters</h2>
-              {batterFields.map(({ name, label }) => (
-                <PointConfigInput
-                  key={name}
-                  name={name}
-                  label={label}
-                  errors={errors}
-                  register={register}
-                />
-              ))}
-            </div>
-            <div className="flex-grow grid grid-cols-4 gap-2">
-              <h2 className="col-span-4 prose-lg">Pitchers</h2>
-              {pitcherFields.map(({ name, label }) => (
-                <PointConfigInput
-                  key={name}
-                  name={name}
-                  label={label}
-                  errors={errors}
-                  register={register}
-                />
-              ))}
-            </div>
-            <div className="flex justify-end gap-2">
-              <Button variant="destructive" type="reset" onClick={onReset}>
-                Reset All
-              </Button>
-              <Button type="submit">Submit</Button>
-            </div>
-          </form>
-        </div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-4 py-2"
+        >
+          <div className="flex-grow grid grid-cols-5 gap-2">
+            <h2 className="col-span-5 prose-lg">Batters</h2>
+            {batterFields.map(({ name, label }) => (
+              <PointConfigInput
+                key={name}
+                name={name}
+                label={label}
+                errors={errors}
+                register={register}
+                defaultValues={defaultValues}
+                watch={watch}
+              />
+            ))}
+          </div>
+          <div className="flex-grow grid grid-cols-5 gap-2">
+            <h2 className="col-span-5 prose-lg">Pitchers</h2>
+            {pitcherFields.map(({ name, label }) => (
+              <PointConfigInput
+                key={name}
+                name={name}
+                label={label}
+                errors={errors}
+                register={register}
+                defaultValues={defaultValues}
+                watch={watch}
+              />
+            ))}
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button variant="destructive" type="reset" onClick={onReset}>
+              Reset All
+            </Button>
+            <Button type="submit">Update Table</Button>
+          </div>
+        </form>
       </CollapsibleContent>
     </Collapsible>
   );
 };
-
-export default PointsConfigForm;

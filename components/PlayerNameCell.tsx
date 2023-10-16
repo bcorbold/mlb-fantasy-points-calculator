@@ -14,7 +14,7 @@ export const PlayerNameCell = ({
   const batter = isBatter(player);
   return (
     <div className="flex gap-2 items-center justify-start">
-      <HoverCard defaultOpen={Name === "Yu Darvish"}>
+      <HoverCard>
         <HoverCardTrigger>
           <BarChart3 className="w-6 h-6 hover:bg-slate-200 transition-colors rounded p-1" />
           {batter ? (
