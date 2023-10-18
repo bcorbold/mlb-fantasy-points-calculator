@@ -107,7 +107,7 @@ export const PointsConfigForm = ({ initialConfig }: Props) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, defaultValues },
+    formState: { errors },
     watch,
   } = useForm<PointsConfigFormSchema>({
     resolver: zodResolver(pointsConfigFormSchema),
@@ -127,7 +127,7 @@ export const PointsConfigForm = ({ initialConfig }: Props) => {
   const onShare = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const shareUrl = `${window.location.href}?${new URLSearchParams(
-      pointsConfigToFormValues(pointsConfig) as any,
+      pointsConfigToFormValues(formValuesToPointsConfig(watch())) as any,
     ).toString()}`;
     navigator.clipboard.writeText(shareUrl).then(() => {
       toast({
