@@ -19,7 +19,7 @@ type Props = {
   register: UseFormRegister<PointsConfigFormSchema>;
   errors: FieldErrors<PointsConfigFormSchema>;
   label: string;
-  defaultValues?: Readonly<Partial<PointsConfigFormSchema>>;
+  originalValues: PointsConfigFormSchema;
   watch: UseFormWatch<PointsConfigFormSchema>;
 };
 
@@ -28,10 +28,10 @@ export const PointConfigInput = ({
   label,
   register,
   errors,
-  defaultValues,
+  originalValues,
   watch,
 }: Props) => {
-  const pointsDif = watch(name) - (defaultValues?.[name] ?? 0);
+  const pointsDif = watch(name) - originalValues[name];
   return (
     <div className="flex w-full px-2 gap-1">
       <div className="flex flex-col-reverse w-full gap-[3px]">
@@ -59,14 +59,14 @@ export const PointConfigInput = ({
           <div className="border border-input px-2 flex items-center bg-input/30">
             <Tooltip>
               <TooltipTrigger>
-                <p className="text-sm">{defaultValues?.[name]}</p>
+                <p className="text-sm">{originalValues[name]}</p>
               </TooltipTrigger>
               <TooltipContent>Original config value</TooltipContent>
             </Tooltip>
           </div>
           <div
             className={cn(
-              "border border-input rounded-r-md px-2 flex items-center",
+              "border border-input rounded-r-md px-2 flex items-center bg-input/30",
               pointsDif > 0 && "bg-green-200 border-green-600 text-green-600",
               pointsDif < 0 && "bg-red-200 border-red-600 text-red-600",
             )}

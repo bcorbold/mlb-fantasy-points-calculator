@@ -6,6 +6,7 @@ import { cn } from "@/lib/cn";
 import { HeaderBreadCrumbs } from "@/components/HeaderBreadCrumbs";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <HeaderBreadCrumbs />
         </header>
         <main className="px-8 py-4 h-[calc(100%-49px)]">{children}</main>
+        <Toaster />
       </body>
     </html>
   );

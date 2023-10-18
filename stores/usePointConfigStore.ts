@@ -2,7 +2,8 @@ import { create } from "zustand";
 import { PointsConfig } from "@/models/PointsConfig";
 
 type State = {
-  pointsConfig?: PointsConfig;
+  loaded: boolean;
+  pointsConfig: PointsConfig;
 };
 
 type Actions = {
@@ -10,6 +11,9 @@ type Actions = {
 };
 
 export const usePointConfigStore = create<State & Actions>((set) => ({
-  pointsConfig: undefined,
-  setPointsConfig: (pointsConfig: PointsConfig) => set({ pointsConfig }),
+  // Note: this will be set by InitializePointConfigStore
+  pointsConfig: undefined as unknown as PointsConfig,
+  loaded: false,
+  setPointsConfig: (pointsConfig: PointsConfig) =>
+    set({ pointsConfig, loaded: true }),
 }));

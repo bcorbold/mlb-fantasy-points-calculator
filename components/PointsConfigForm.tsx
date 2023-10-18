@@ -10,19 +10,13 @@ import {
 } from "@/models/PointsConfigFormSchema";
 import { PointConfigInput } from "@/components/PointConfigInput";
 import { PointsConfigFormSchema } from "@/models/PointsConfigFormSchema";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { PointsConfig } from "@/models/PointsConfig";
 import { pointsConfigToFormValues } from "@/lib/pointsConfigToFormValues";
 import { usePointConfigStore } from "@/stores/usePointConfigStore";
 import { formValuesToPointsConfig } from "@/lib/formValuesToPointsConfig";
 import { MouseEvent } from "react";
-import { PointsConfigComparison } from "@/components/PointsConfigComparison";
+import { useToast } from "@/components/ui/use-toast";
 
 const batterFields: InputFieldConfig<BatterFields>[] = [
   {
@@ -105,6 +99,9 @@ type Props = {
 export const PointsConfigForm = ({ initialConfig }: Props) => {
   const pointsConfig = usePointConfigStore((state) => state.pointsConfig);
   const setPointsConfig = usePointConfigStore((state) => state.setPointsConfig);
+  const originalPointsConfig = pointsConfigToFormValues(initialConfig);
+
+  const { toast } = useToast();
 
   const {
     register,
@@ -115,7 +112,7 @@ export const PointsConfigForm = ({ initialConfig }: Props) => {
   } = useForm<PointsConfigFormSchema>({
     resolver: zodResolver(pointsConfigFormSchema),
     mode: "onTouched",
-    defaultValues: pointsConfigToFormValues(pointsConfig ?? initialConfig),
+    defaultValues: pointsConfigToFormValues(pointsConfig),
   });
 
   const onSubmit = (values: PointsConfigFormSchema) =>
@@ -127,52 +124,64 @@ export const PointsConfigForm = ({ initialConfig }: Props) => {
     setPointsConfig(initialConfig);
   };
 
+  const onShare = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const shareUrl = `${window.location.href}?${new URLSearchParams(
+      pointsConfigToFormValues(pointsConfig) as any,
+    ).toString()}`;
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      toast({
+        title: "Copied!",
+        description: "Shareable link copied to clipboard.",
+        variant: "info",
+      });
+    });
+  };
+
   return (
-    <Collapsible className="p-4 rounded-lg border" defaultOpen>
-      <CollapsibleTrigger className="prose-lg">
-        Adjust Points
-      </CollapsibleTrigger>
-      <CollapsibleContent>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4 py-2"
-        >
-          <div className="flex-grow grid grid-cols-5 gap-2">
-            <h2 className="col-span-5 prose-lg">Batters</h2>
-            {batterFields.map(({ name, label }) => (
-              <PointConfigInput
-                key={name}
-                name={name}
-                label={label}
-                errors={errors}
-                register={register}
-                defaultValues={defaultValues}
-                watch={watch}
-              />
-            ))}
-          </div>
-          <div className="flex-grow grid grid-cols-5 gap-2">
-            <h2 className="col-span-5 prose-lg">Pitchers</h2>
-            {pitcherFields.map(({ name, label }) => (
-              <PointConfigInput
-                key={name}
-                name={name}
-                label={label}
-                errors={errors}
-                register={register}
-                defaultValues={defaultValues}
-                watch={watch}
-              />
-            ))}
-          </div>
-          <div className="flex justify-end gap-2">
-            <Button variant="destructive" type="reset" onClick={onReset}>
-              Reset All
-            </Button>
-            <Button type="submit">Update Table</Button>
-          </div>
-        </form>
-      </CollapsibleContent>
-    </Collapsible>
+    <div className="bg-slate-100 p-4 rounded-lg">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-4 py-2"
+      >
+        <div className="flex-grow grid grid-cols-5 gap-2">
+          <h2 className="col-span-5 prose-lg">Adjust Batter Points</h2>
+          {batterFields.map(({ name, label }) => (
+            <PointConfigInput
+              key={name}
+              name={name}
+              label={label}
+              errors={errors}
+              register={register}
+              originalValues={originalPointsConfig}
+              watch={watch}
+            />
+          ))}
+        </div>
+        <div className="flex-grow grid grid-cols-5 gap-2">
+          <h2 className="col-span-5 prose-lg">Adjust Pitcher Points</h2>
+          {pitcherFields.map(({ name, label }) => (
+            <PointConfigInput
+              key={name}
+              name={name}
+              label={label}
+              errors={errors}
+              register={register}
+              originalValues={originalPointsConfig}
+              watch={watch}
+            />
+          ))}
+        </div>
+        <div className="flex justify-end gap-2">
+          <Button onClick={onShare} variant="outline">
+            Share
+          </Button>
+          <Button variant="destructive" type="reset" onClick={onReset}>
+            Reset All
+          </Button>
+          <Button type="submit">Update Table</Button>
+        </div>
+      </form>
+    </div>
   );
 };
